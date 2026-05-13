@@ -6,17 +6,21 @@ export default defineEventHandler(async (event) => {
   const kvUrl = process.env.KV_REST_API_URL
   const kvToken = process.env.KV_REST_API_TOKEN
 
-  // Save to Vercel KV if configured
+  // Save to Vercel KV (Upstash) using REST Command API for better JSON handling
   if (kvUrl && kvToken) {
     try {
-      await $fetch(`${kvUrl}/set/ipa_words`, {
+      await $fetch(kvUrl, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${kvToken}` },
-        body: JSON.stringify(body)
+        headers: { 
+          Authorization: `Bearer ${kvToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(['SET', 'ipa_words', JSON.stringify(body)])
       })
       return { success: true, mode: 'cloud' }
     } catch (err) {
       console.error('KV Set Error:', err)
+      // If cloud fails, it will continue to local fallback
     }
   }
 

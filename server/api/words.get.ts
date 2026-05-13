@@ -11,14 +11,16 @@ export default defineEventHandler(async (event) => {
       const response: any = await $fetch(`${kvUrl}/get/ipa_words`, {
         headers: { Authorization: `Bearer ${kvToken}` }
       })
-      // KV returns { result: "stringified_data" }
-      return response.result ? JSON.parse(response.result) : null
+      // Upstash REST returns { result: "stringified_value" }
+      if (response && response.result) {
+        return JSON.parse(response.result)
+      }
     } catch (err) {
       console.error('KV Get Error:', err)
     }
   }
 
-  // Fallback to local file (for local development)
+  // Fallback to local file
   const filePath = path.resolve(process.cwd(), 'data/words.json')
   try {
     const data = await fs.readFile(filePath, 'utf-8')
