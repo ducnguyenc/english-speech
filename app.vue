@@ -3,7 +3,8 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { 
   Mic, Play, RotateCcw, CheckCircle2, AlertCircle, 
   ChevronLeft, ChevronRight, Settings, Plus, 
-  Trash2, Edit3, Save, X, BookOpen 
+  Trash2, Edit3, Save, X, BookOpen,
+  Upload, Download
 } from 'lucide-vue-next'
 import { createPronunciationAssessment } from '~/utils/AzureSpeech'
 
@@ -223,6 +224,58 @@ const switchLanguage = (lang) => {
     status.value = 'idle'
     error.value = null
 }
+
+// Import/Export JSON
+const fileInput = ref(null)
+
+const triggerImport = () => {
+    fileInput.value.click()
+}
+
+const handleImport = (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        try {
+            const importedData = JSON.parse(e.target.result)
+            
+            if (Array.isArray(importedData)) {
+                // If it's an array, append to current language
+                allWords.value[language.value] = [...allWords.value[language.value], ...importedData]
+            } else if (typeof importedData === 'object' && importedData !== null) {
+                // If it's an object, try to merge languages
+                const newAllWords = { ...allWords.value }
+                for (const lang in importedData) {
+                    if (Array.isArray(importedData[lang])) {
+                        newAllWords[lang] = [
+                            ...(newAllWords[lang] || []),
+                            ...importedData[lang]
+                        ]
+                    }
+                }
+                allWords.value = newAllWords
+            }
+            alert(language.value === 'en-US' ? 'Import successful!' : 'インポートが完了しました！')
+        } catch (err) {
+            console.error('Import failed:', err)
+            alert(language.value === 'en-US' ? 'Error: Invalid JSON file.' : 'エラー：無効なJSONファイルです。')
+        }
+        event.target.value = ''
+    }
+    reader.readAsText(file)
+}
+
+const exportJson = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allWords.value, null, 2))
+    const downloadAnchorNode = document.createElement('a')
+    downloadAnchorNode.setAttribute("href", dataStr)
+    downloadAnchorNode.setAttribute("download", `ipa-mastery-words.json`)
+    document.body.appendChild(downloadAnchorNode)
+    downloadAnchorNode.click()
+    downloadAnchorNode.remove()
+}
 </script>
 
 <template>
@@ -385,6 +438,22 @@ const switchLanguage = (lang) => {
         <button type="submit" class="add-btn">
           <Plus :size="20" /> {{ language === 'en-US' ? 'Thêm từ' : '単語を追加' }}
         </button>
+
+        <div class="secondary-actions">
+          <input
+            type="file"
+            ref="fileInput"
+            accept=".json"
+            style="display: none"
+            @change="handleImport"
+          />
+          <button type="button" class="btn-outline" @click="triggerImport">
+            <Upload :size="18" /> {{ language === 'en-US' ? 'Import JSON' : 'JSONをインポート' }}
+          </button>
+          <button type="button" class="btn-outline" @click="exportJson">
+            <Download :size="18" /> {{ language === 'en-US' ? 'Export JSON' : 'JSONをエクスポート' }}
+          </button>
+        </div>
       </form>
 
       <div class="word-list">
