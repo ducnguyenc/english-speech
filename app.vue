@@ -40,21 +40,48 @@ const editWord = ref({ word: '', ipa: '' })
 // Assessment Controller
 const assessmentInstance = ref(null)
 
-// Initialize from localStorage
-onMounted(() => {
+// Sync with server
+const syncToServer = async () => {
+    try {
+        await $fetch('/api/words', {
+            method: 'POST',
+            body: allWords.value
+        })
+    } catch (err) {
+        console.error('Failed to sync to server:', err)
+    }
+}
+
+// Initialize
+onMounted(async () => {
+    // Language settings still in localStorage (per-machine preference)
     const savedLang = localStorage.getItem('ipa-mastery-lang')
-    if (savedLang) language.ref = savedLang
+    if (savedLang) language.value = savedLang
     
-    const savedWords = localStorage.getItem('ipa-mastery-all-words')
-    if (savedWords) allWords.value = JSON.parse(savedWords)
-    
-    const savedLastLang = localStorage.getItem('ipa-mastery-lang')
-    if (savedLastLang) language.value = savedLastLang
+    // Words from server (shared)
+    try {
+        const serverWords = await $fetch('/api/words')
+        if (serverWords) {
+            allWords.value = serverWords
+        } else {
+            // Fallback to localStorage if server empty
+            const savedWords = localStorage.getItem('ipa-mastery-all-words')
+            if (savedWords) allWords.value = JSON.parse(savedWords)
+        }
+    } catch (err) {
+        console.error('Failed to fetch words from server:', err)
+        // Fallback to localStorage
+        const savedWords = localStorage.getItem('ipa-mastery-all-words')
+        if (savedWords) allWords.value = JSON.parse(savedWords)
+    }
 })
 
 // Persistence
 watch(allWords, (val) => {
+    // Still save to localStorage as cache
     localStorage.setItem('ipa-mastery-all-words', JSON.stringify(val))
+    // Sync to server for sharing
+    syncToServer()
 }, { deep: true })
 
 watch(language, (val) => {
