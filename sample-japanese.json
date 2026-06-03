@@ -1,0 +1,12 @@
+[
+  { "english": "ありがとう",     "ipa": "a-ri-ga-to-u",     "vietnamese": "Cảm ơn",         "lang": "ja", "day": 1 },
+  { "english": "こんにちは",     "ipa": "ko-n-ni-chi-wa",   "vietnamese": "Xin chào",       "lang": "ja", "day": 1 },
+  { "english": "すみません",     "ipa": "su-mi-ma-se-n",    "vietnamese": "Xin lỗi / Excuse me", "lang": "ja", "day": 1 },
+  { "english": "おはようございます", "ipa": "o-ha-yo-u-go-za-i-ma-su", "vietnamese": "Chào buổi sáng", "lang": "ja", "day": 1 },
+  { "english": "たべる",         "ipa": "ta-be-ru",         "vietnamese": "Ăn",             "lang": "ja", "day": 2 },
+  { "english": "のむ",           "ipa": "no-mu",            "vietnamese": "Uống",           "lang": "ja", "day": 2 },
+  { "english": "みる",           "ipa": "mi-ru",            "vietnamese": "Xem / Nhìn",     "lang": "ja", "day": 2 },
+  { "english": "きく",           "ipa": "ki-ku",            "vietnamese": "Nghe",           "lang": "ja", "day": 2 },
+  { "english": "がっこう",       "ipa": "ga-k-ko-u",        "vietnamese": "Trường học",     "lang": "ja", "day": 3 },
+  { "english": "でんしゃ",       "ipa": "de-n-sha",         "vietnamese": "Tàu điện",       "lang": "ja", "day": 3 }
+]

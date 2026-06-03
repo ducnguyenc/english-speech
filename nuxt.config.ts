@@ -23,12 +23,12 @@ export default defineNuxtConfig({
     css: ['~/assets/css/index.css'],
 
     runtimeConfig: {
-        // Keys within public are also exposed client-side
         public: {
             azureRegion: process.env.AZURE_SPEECH_REGION || 'eastasia'
         },
-        // Private keys are only available on the server
-        azureKey: process.env.AZURE_SPEECH_KEY
+        azureKey: process.env.AZURE_SPEECH_KEY,
+        supabaseUrl: process.env.SUPABASE_URL,
+        supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     },
 
     modules: [

@@ -1,0 +1,12 @@
+[
+  { "english": "Apple",       "ipa": "ˈæp.əl",      "vietnamese": "Táo",         "day": 1 },
+  { "english": "Beautiful",   "ipa": "ˈbjuː.tɪ.fəl", "vietnamese": "Đẹp",         "day": 1 },
+  { "english": "Challenge",   "ipa": "ˈtʃæl.ɪndʒ",  "vietnamese": "Thử thách",   "day": 1 },
+  { "english": "Develop",     "ipa": "dɪˈvel.əp",    "vietnamese": "Phát triển",  "day": 1 },
+  { "english": "Environment", "ipa": "ɪnˈvaɪ.rən.mənt", "vietnamese": "Môi trường", "day": 2 },
+  { "english": "Frequency",   "ipa": "ˈfriː.kwən.si","vietnamese": "Tần số",      "day": 2 },
+  { "english": "Government",  "ipa": "ˈɡʌv.ən.mənt", "vietnamese": "Chính phủ",  "day": 2 },
+  { "english": "Hospital",    "ipa": "ˈhɒs.pɪ.təl",  "vietnamese": "Bệnh viện",  "day": 2 },
+  { "english": "Important",   "ipa": "ɪmˈpɔː.tənt",  "vietnamese": "Quan trọng", "day": 3 },
+  { "english": "Journey",     "ipa": "ˈdʒɜː.ni",     "vietnamese": "Hành trình", "day": 3 }
+]
